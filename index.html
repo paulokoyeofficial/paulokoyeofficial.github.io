@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PAUL OKOYE - Personal Website</title>
+    <meta name="description" content="PAUL OKOYE - Web Developer & Designer creating amazing digital experiences">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <a href="index.html" class="logo">PAUL OKOYE</a>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="projects.html">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="menu-toggle" id="menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Hello, I'm PAUL OKOYE</h1>
+            <p>I help farmers, agri-entrepreneurs, and forward-looking businesses unlock growth through data, AI, and technology-driven solutions. My work focuses on making agriculture smarter, businesses more efficient, and institutions better equipped to create lasting impact.</p>
+            <div class="hero-buttons">
+                <a href="#contact" class="cta-button">Get In Touch</a>
+                <a href="assets/pdfs/MR. OKOYE PAUL CHINAZA CV" class="cta-button secondary" target="_blank">
+                    <i class="fas fa-download"></i> Download Resume
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section">
+        <div class="container">
+            <h2 class="section-title">About Me</h2>
+            <div class="about-content">
+                <div class="about-image">
+                    <img src="assets/images/profile.jpeg" alt="PAUL OKOYE" id="profile-img">
+                </div>
+                <div class="about-text">
+                    <h3>I'm a Creative Developer</h3>
+                    <p>With over 5 years of experience in web development, I specialize in creating beautiful, functional, and user-friendly websites and applications. I'm passionate about clean code, modern design, and delivering exceptional user experiences.</p>
+                    <p>When I'm not coding, you can find me exploring new technologies, contributing to open-source projects, or enjoying outdoor activities. I believe in continuous learning and always strive to stay up-to-date with the latest industry trends.</p>
+                    <a href="about.html" class="learn-more-btn">Learn More About Me</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<!-- Skills Section -->
+<section id="skills" class="section skills">
+    <div class="container">
+        <h2 class="section-title">My Skills</h2>
+        <div class="skills-grid">
+            <div class="skill-card">
+                <i class="fas fa-database"></i>
+                <h4>Data Science</h4>
+                <p>Data Cleaning, Exploratory Data Analysis (EDA), Statistical Modeling</p>
+                <div class="skill-level">
+                    <div class="skill-bar" data-level="90"></div>
+                </div>
+            </div>
+            <div class="skill-card">
+                <i class="fas fa-robot"></i>
+                <h4>Machine Learning</h4>
+                <p>Regression, Classification, Clustering, Deep Learning (TensorFlow, PyTorch)</p>
+                <div class="skill-level">
+                    <div class="skill-bar" data-level="85"></div>
+                </div>
+            </div>
+            <div class="skill-card">
+                <i class="fas fa-chart-line"></i>
+                <h4>Data Visualization</h4>
+                <p>Matplotlib, Seaborn, Plotly, Power BI, Tableau</p>
+                <div class="skill-level">
+                    <div class="skill-bar" data-level="95"></div>
+                </div>
+            </div>
+            <div class="skill-card">
+                <i class="fas fa-cloud"></i>
+                <h4>Tools & Technologies</h4>
+                <p>Python, SQL, Jupyter Notebook, Git, AWS, Docker</p>
+                <div class="skill-level">
+                    <div class="skill-bar" data-level="80"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!-- Projects Section -->
+<section id="projects" class="section">
+    <div class="container">
+        <h2 class="section-title">My Projects</h2>
+        <p class="section-subtitle">Explore some of my recent work</p>
+        
+        <div class="projects-slider-wrapper">
+            <button class="slider-btn prev-btn" id="prev-btn" aria-label="Previous projects">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            
+            <div class="projects-slider" id="projects-slider">
+                <div class="projects-slide">
+                    <div class="project-card">
+                        <div class="project-image">
+                            <img src="assets/images/project1.jpg" alt="Fortified Food Development Using Oatmeal, Pigeon Pea & Tiger Nut Flour">
+                            <div class="project-overlay">
+                                <div class="project-links">
+                                    <a href="#" class="project-link" target="_blank" aria-label="View Live Demo">
+                                        <i class="fas fa-external-link-alt"></i>
+                                    </a>
+                                    <a href="#" class="project-link" target="_blank" aria-label="View GitHub Code">
+                                        <i class="fab fa-github"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <h4>E-commerce Platform</h4>
+                            <p>A full-stack e-commerce solution built with React and Node.js, featuring payment integration, inventory management, and admin dashboard.</p>
+                            <div class="project-tech">
+                                <span class="tech-tag">React</span>
+                                <span class="tech-tag">Node.js</span>
+                                <span class="tech-tag">MongoDB</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="project-card">
+                        <div class="project-image">
+                            <img src="assets/images/project2.jpg" alt="Task Management App">
+                            <div class="project-overlay">
+                                <div class="project-links">
+                                    <a href="#" class="project-link" target="_blank" aria-label="View Live Demo">
+                                        <i class="fas fa-external-link-alt"></i>
+                                    </a>
+                                    <a href="#" class="project-link" target="_blank" aria-label="View GitHub Code">
+                                        <i class="fab fa-github"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <h4>Task Management App</h4>
+                            <p>A collaborative task management application with real-time updates, drag-and-drop functionality, and team collaboration features.</p>
+                            <div class="project-tech">
+                                <span class="tech-tag">Vue.js</span>
+                                <span class="tech-tag">Firebase</span>
+                                <span class="tech-tag">Socket.io</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="project-card">
+                        <div class="project-image">
+                            <img src="assets/images/project3.jpg" alt="Weather Dashboard">
+                            <div class="project-overlay">
+                                <div class="project-links">
+                                    <a href="#" class="project-link" target="_blank" aria-label="View Live Demo">
+                                        <i class="fas fa-external-link-alt"></i>
+                                    </a>
+                                    <a href="#" class="project-link" target="_blank" aria-label="View GitHub Code">
+                                        <i class="fab fa-github"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <h4>Weather Dashboard</h4>
+                            <p>A responsive weather application with location-based forecasts, interactive maps, and detailed weather analytics.</p>
+                            <div class="project-tech">
+                                <span class="tech-tag">JavaScript</span>
+                                <span class="tech-tag">API Integration</span>
+                                <span class="tech-tag">Chart.js</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Second Slide -->
+                <div class="projects-slide">
+                    <div class="project-card">
+                        <div class="project-image">
+                            <img src="assets/images/project4.jpg" alt="Portfolio Website">
+                            <div class="project-overlay">
+                                <div class="project-links">
+                                    <a href="#" class="project-link" target="_blank" aria-label="View Live Demo">
+                                        <i class="fas fa-external-link-alt"></i>
+                                    </a>
+                                    <a href="#" class="project-link" target="_blank" aria-label="View GitHub Code">
+                                        <i class="fab fa-github"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <h4>Portfolio Website</h4>
+                            <p>A modern portfolio website with smooth animations, responsive design, and interactive elements to showcase creative work.</p>
+                            <div class="project-tech">
+                                <span class="tech-tag">HTML5</span>
+                                <span class="tech-tag">CSS3</span>
+                                <span class="tech-tag">JavaScript</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="project-card">
+                        <div class="project-image">
+                            <img src="assets/images/project5.jpg" alt="Social Media Dashboard">
+                            <div class="project-overlay">
+                                <div class="project-links">
+                                    <a href="#" class="project-link" target="_blank" aria-label="View Live Demo">
+                                        <i class="fas fa-external-link-alt"></i>
+                                    </a>
+                                    <a href="#" class="project-link" target="_blank" aria-label="View GitHub Code">
+                                        <i class="fab fa-github"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <h4>Social Media Dashboard</h4>
+                            <p>Analytics dashboard for social media management with real-time data visualization and reporting features.</p>
+                            <div class="project-tech">
+                                <span class="tech-tag">React</span>
+                                <span class="tech-tag">D3.js</span>
+                                <span class="tech-tag">REST API</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="project-card">
+                        <div class="project-image">
+                            <img src="assets/images/project6.jpg" alt="Fitness Tracker">
+                            <div class="project-overlay">
+                                <div class="project-links">
+                                    <a href="#" class="project-link" target="_blank" aria-label="View Live Demo">
+                                        <i class="fas fa-external-link-alt"></i>
+                                    </a>
+                                    <a href="#" class="project-link" target="_blank" aria-label="View GitHub Code">
+                                        <i class="fab fa-github"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <h4>Fitness Tracker</h4>
+                            <p>Mobile-responsive fitness tracking application with workout logging, progress charts, and goal setting features.</p>
+                            <div class="project-tech">
+                                <span class="tech-tag">Flutter</span>
+                                <span class="tech-tag">Firebase</span>
+                                <span class="tech-tag">SQLite</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="slider-btn next-btn" id="next-btn" aria-label="Next projects">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+        
+        <div class="slider-dots" id="slider-dots"></div>
+        
+        <div class="view-all-projects">
+            <a href="projects.html" class="view-all-btn">
+                <span>View All Projects</span>
+                <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section contact">
+        <div class="container">
+            <h2 class="section-title">Get In Touch</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3>Let's Work Together</h3>
+                    <p>I'm always interested in new opportunities and exciting projects. Feel free to reach out!</p>
+                    
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h4>Email</h4>
+                            <span>paulo.koye@example.com</span>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <h4>Phone</h4>
+                            <span>+234 (0) 123-456-7890</span>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h4>Location</h4>
+                            <span>Lagos, Nigeria</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <form class="contact-form" id="contact-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="name">Name *</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email *</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <input type="text" id="subject" name="subject">
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message *</label>
+                        <textarea id="message" name="message" required placeholder="Tell me about your project..."></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-paper-plane"></i>
+                        Send Message
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <h3>PAUL OKOYE</h3>
+                    <p>Creating digital experiences that matter</p>
+                </div>
+                <div class="social-links">
+                    <a href="https://linkedin.com/in/paulokoye" target="_blank" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="https://github.com/paulokoye" target="_blank" aria-label="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="https://twitter.com/paulokoye" target="_blank" aria-label="Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="https://instagram.com/paulokoye" target="_blank" aria-label="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 PAUL OKOYE. All rights reserved. | Built with ❤️</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
