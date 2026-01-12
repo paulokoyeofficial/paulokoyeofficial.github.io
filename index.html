@@ -28,19 +28,89 @@
         </nav>
     </header>
 
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="hero-content">
-            <h1>Hello, I'm PAUL OKOYE</h1>
-            <p>I help farmers, agri-entrepreneurs, and forward-looking businesses unlock growth through data, AI, and technology-driven solutions. My work focuses on making agriculture smarter, businesses more efficient, and institutions better equipped to create lasting impact.</p>
-            <div class="hero-buttons">
-                <a href="#contact" class="cta-button">Get In Touch</a>
-                <a href="assets/pdfs/MR. OKOYE PAUL CHINAZA CV" class="cta-button secondary" target="_blank">
-                    <i class="fas fa-download"></i> Download Resume
-                </a>
+<!-- Dynamic Hero Slider -->
+<section id="home" class="hero-slider">
+    <div class="slider-container">
+        <!-- Slide 1 -->
+        <div class="hero-slide active">
+            <div class="slide-background">
+                <img src="assets/images/hero-slide1.jpg" alt="Web Development">
+            </div>
+            <div class="slide-content">
+                <div class="container">
+                    <span class="slide-label">Welcome to My Portfolio</span>
+                    <h1 class="slide-title">Creating Innovative</h1>
+                    <h2 class="slide-subtitle">Web Solutions</h2>
+                    <p class="slide-description">Transforming ideas into beautiful, functional websites that drive results</p>
+                    <div class="slide-buttons">
+                        <a href="#projects" class="cta-button primary">View My Work</a>
+                        <a href="#contact" class="cta-button secondary">Get In Touch</a>
+                    </div>
+                </div>
             </div>
         </div>
-    </section>
+
+        <!-- Slide 2 -->
+        <div class="hero-slide">
+            <div class="slide-background">
+                <img src="assets/images/hero-slide2.jpg" alt="Full Stack Developer">
+            </div>
+            <div class="slide-content">
+                <div class="container">
+                    <span class="slide-label">Full-Stack Developer</span>
+                    <h1 class="slide-title">Building Digital</h1>
+                    <h2 class="slide-subtitle">Experiences</h2>
+                    <p class="slide-description">From concept to deployment, crafting seamless user experiences</p>
+                    <div class="slide-buttons">
+                        <a href="#projects" class="cta-button primary">Explore Projects</a>
+                        <a href="about.html" class="cta-button secondary">About Me</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="hero-slide">
+            <div class="slide-background">
+                <img src="assets/images/hero-slide3.jpg" alt="UI/UX Design">
+            </div>
+            <div class="slide-content">
+                <div class="container">
+                    <span class="slide-label">UI/UX Design</span>
+                    <h1 class="slide-title">Design Meets</h1>
+                    <h2 class="slide-subtitle">Functionality</h2>
+                    <p class="slide-description">Creating beautiful interfaces that users love to interact with</p>
+                    <div class="slide-buttons">
+                        <a href="projects.html" class="cta-button primary">See All Projects</a>
+                        <a href="assets/pdfs/resume.pdf" class="cta-button secondary">
+                            <i class="fas fa-download"></i> Resume
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Controls -->
+    <button class="slider-control prev" id="hero-prev" aria-label="Previous slide">
+        <i class="fas fa-chevron-left"></i>
+    </button>
+    <button class="slider-control next" id="hero-next" aria-label="Next slide">
+        <i class="fas fa-chevron-right"></i>
+    </button>
+
+    <!-- Slide Indicators -->
+    <div class="slide-indicators">
+        <button class="indicator active" data-slide="0" aria-label="Go to slide 1"></button>
+        <button class="indicator" data-slide="1" aria-label="Go to slide 2"></button>
+        <button class="indicator" data-slide="2" aria-label="Go to slide 3"></button>
+    </div>
+
+    <!-- Scroll Down Arrow -->
+    <a href="#about" class="scroll-down">
+        <i class="fas fa-chevron-down"></i>
+    </a>
+</section>
 
     <!-- About Section -->
     <section id="about" class="section">
