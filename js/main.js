@@ -2,12 +2,25 @@
 // MAIN.JS - Paulo Koye Personal Website
 // ==========================================
 
-// DOM Content Loaded Event
+// Single DOMContentLoaded Event - ALL initialization happens here
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize all features
     initializeWebsite();
+    setupProjectSlider();
+    setupHeroSlider();
+    updateNavigationActiveState();
+    updateCopyrightYear();
+    
+    // Page-specific features
+    if (document.querySelector('.about-hero')) {
+        initializeAboutPage();
+    }
 });
 
-// Initialize all website functionality
+// ==========================================
+// CORE INITIALIZATION
+// ==========================================
+
 function initializeWebsite() {
     setupNavigation();
     setupScrollEffects();
@@ -15,11 +28,6 @@ function initializeWebsite() {
     setupAnimations();
     setupSkillBars();
     setupImageFallbacks();
-    
-    // Initialize page-specific features
-    if (document.querySelector('.about-hero')) {
-        initializeAboutPage();
-    }
 }
 
 // ==========================================
@@ -94,6 +102,27 @@ function updateActiveNavLink() {
     navLinks.forEach(link => {
         link.classList.remove('active');
         if (link.getAttribute('href') === `#${currentSection}`) {
+            link.classList.add('active');
+        }
+    });
+}
+
+function updateNavigationActiveState() {
+    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    const navLinks = document.querySelectorAll('.nav-links a');
+    
+    navLinks.forEach(link => {
+        const linkPage = link.getAttribute('href');
+        
+        // Remove all active classes first
+        link.classList.remove('active');
+        
+        // Add active class based on current page
+        if (currentPage === 'index.html' && (linkPage === 'index.html' || linkPage === '#home')) {
+            link.classList.add('active');
+        } else if (currentPage === 'about.html' && linkPage === 'about.html') {
+            link.classList.add('active');
+        } else if (currentPage === 'projects.html' && linkPage === 'projects.html') {
             link.classList.add('active');
         }
     });
@@ -180,514 +209,131 @@ function createScrollToTopButton() {
 }
 
 // ==========================================
-// CONTACT FORM FUNCTIONALITY
+// HERO SLIDER FUNCTIONALITY
 // ==========================================
 
-function setupContactForm() {
-    const contactForm = document.getElementById("contact-form");
-    if (!contactForm) return;
-
-    contactForm.addEventListener("submit", function(e) {
-        e.preventDefault();
-        handleFormSubmission(this);
+function setupHeroSlider() {
+    const slides = document.querySelectorAll('.hero-slide');
+    const prevBtn = document.getElementById('hero-prev');
+    const nextBtn = document.getElementById('hero-next');
+    const indicators = document.querySelectorAll('.indicator');
+    
+    if (slides.length === 0) return;
+    
+    let currentSlide = 0;
+    const totalSlides = slides.length;
+    let autoPlayInterval;
+    
+    // Show specific slide
+    function showSlide(index) {
+        // Remove active class from all
+        slides.forEach(slide => slide.classList.remove('active'));
+        indicators.forEach(ind => ind.classList.remove('active'));
+        
+        // Add active class to current
+        slides[index].classList.add('active');
+        indicators[index].classList.add('active');
+        
+        currentSlide = index;
+    }
+    
+    // Next slide
+    function nextSlide() {
+        let next = (currentSlide + 1) % totalSlides;
+        showSlide(next);
+    }
+    
+    // Previous slide
+    function prevSlide() {
+        let prev = (currentSlide - 1 + totalSlides) % totalSlides;
+        showSlide(prev);
+    }
+    
+    // Auto play
+    function startAutoPlay() {
+        autoPlayInterval = setInterval(nextSlide, 5000);
+    }
+    
+    function stopAutoPlay() {
+        clearInterval(autoPlayInterval);
+    }
+    
+    // Event listeners
+    if (prevBtn) prevBtn.addEventListener('click', () => {
+        prevSlide();
+        stopAutoPlay();
+        startAutoPlay();
     });
-
-    // Real-time form validation
-    const formInputs = contactForm.querySelectorAll('input, textarea');
-    formInputs.forEach(input => {
-        input.addEventListener('blur', function() {
-            validateField(this);
+    
+    if (nextBtn) nextBtn.addEventListener('click', () => {
+        nextSlide();
+        stopAutoPlay();
+        startAutoPlay();
+    });
+    
+    // Indicator clicks
+    indicators.forEach((indicator, index) => {
+        indicator.addEventListener('click', () => {
+            showSlide(index);
+            stopAutoPlay();
+            startAutoPlay();
         });
-        
-        input.addEventListener('input', function() {
-            clearFieldError(this);
-        });
     });
-}
-
-function handleFormSubmission(form) {
-    const submitBtn = form.querySelector('.submit-btn');
-    const originalText = submitBtn.innerHTML;
     
-    // Show loading state
-    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
-    submitBtn.disabled = true;
-    submitBtn.classList.add('loading');
-    
-    // Validate all fields
-    const isValid = validateForm(form);
-    
-    if (!isValid) {
-        resetSubmitButton(submitBtn, originalText);
-        return;
-    }
-    
-    // Simulate form submission (replace with actual API call)
-    setTimeout(() => {
-        // Success state
-        submitBtn.innerHTML = '<i class="fas fa-check"></i> Message Sent!';
-        submitBtn.classList.remove('loading');
-        submitBtn.classList.add('success');
-        
-        // Show success message
-        showNotification('Thank you for reaching out! I will get back to you soon.', 'success');
-        
-        // Reset form
-        form.reset();
-        
-        // Reset button after delay
-        setTimeout(() => {
-            resetSubmitButton(submitBtn, originalText);
-        }, 3000);
-        
-    }, 2000);
-}
-
-function validateForm(form) {
-    let isValid = true;
-    const requiredFields = form.querySelectorAll('[required]');
-    
-    requiredFields.forEach(field => {
-        if (!validateField(field)) {
-            isValid = false;
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') {
+            prevSlide();
+            stopAutoPlay();
+            startAutoPlay();
+        } else if (e.key === 'ArrowRight') {
+            nextSlide();
+            stopAutoPlay();
+            startAutoPlay();
         }
     });
     
-    return isValid;
-}
-
-function validateField(field) {
-    const value = field.value.trim();
-    const fieldType = field.type;
-    let isValid = true;
-    let errorMessage = '';
+    // Touch/Swipe support
+    let touchStartX = 0;
+    let touchEndX = 0;
     
-    // Required field validation
-    if (field.hasAttribute('required') && !value) {
-        errorMessage = `${getFieldLabel(field)} is required.`;
-        isValid = false;
-    }
-    // Email validation
-    else if (fieldType === 'email' && value) {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(value)) {
-            errorMessage = 'Please enter a valid email address.';
-            isValid = false;
-        }
-    }
-    // Name validation
-    else if (field.name === 'name' && value && value.length < 2) {
-        errorMessage = 'Name must be at least 2 characters long.';
-        isValid = false;
-    }
-    // Message validation
-    else if (field.name === 'message' && value && value.length < 10) {
-        errorMessage = 'Message must be at least 10 characters long.';
-        isValid = false;
+    const sliderContainer = document.querySelector('.slider-container');
+    
+    if (sliderContainer) {
+        sliderContainer.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+        
+        sliderContainer.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, { passive: true });
     }
     
-    if (!isValid) {
-        showFieldError(field, errorMessage);
-    } else {
-        clearFieldError(field);
-    }
-    
-    return isValid;
-}
-
-function showFieldError(field, message) {
-    clearFieldError(field);
-    
-    field.style.borderColor = '#dc3545';
-    
-    const errorDiv = document.createElement('div');
-    errorDiv.className = 'field-error';
-    errorDiv.textContent = message;
-    errorDiv.style.cssText = `
-        color: #dc3545;
-        font-size: 0.875rem;
-        margin-top: 0.25rem;
-        display: block;
-    `;
-    
-    field.parentNode.appendChild(errorDiv);
-}
-
-function clearFieldError(field) {
-    field.style.borderColor = '#e9ecef';
-    const existingError = field.parentNode.querySelector('.field-error');
-    if (existingError) {
-        existingError.remove();
-    }
-}
-
-function getFieldLabel(field) {
-    const label = field.parentNode.querySelector('label');
-    return label ? label.textContent.replace('*', '').trim() : field.name;
-}
-
-function resetSubmitButton(button, originalText) {
-    button.innerHTML = originalText;
-    button.disabled = false;
-    button.classList.remove('loading', 'success', 'error');
-}
-
-function showNotification(message, type = 'info') {
-    const notification = document.createElement('div');
-    notification.className = `notification ${type}`;
-    notification.innerHTML = `
-        <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-info-circle'}"></i>
-        <span>${message}</span>
-        <button class="close-notification"><i class="fas fa-times"></i></button>
-    `;
-    
-    notification.style.cssText = `
-        position: fixed;
-        top: 100px;
-        right: 30px;
-        background: ${type === 'success' ? '#28a745' : '#667eea'};
-        color: white;
-        padding: 1rem 1.5rem;
-        border-radius: 8px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        z-index: 1001;
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        max-width: 400px;
-        transform: translateX(100%);
-        transition: transform 0.3s ease;
-    `;
-    
-    document.body.appendChild(notification);
-    
-    // Animate in
-    setTimeout(() => {
-        notification.style.transform = 'translateX(0)';
-    }, 100);
-    
-    // Close functionality
-    const closeBtn = notification.querySelector('.close-notification');
-    closeBtn.style.cssText = `
-        background: none;
-        border: none;
-        color: white;
-        cursor: pointer;
-        padding: 0;
-        margin-left: auto;
-    `;
-    
-    closeBtn.addEventListener('click', () => {
-        removeNotification(notification);
-    });
-    
-    // Auto remove after 5 seconds
-    setTimeout(() => {
-        removeNotification(notification);
-    }, 5000);
-}
-
-function removeNotification(notification) {
-    notification.style.transform = 'translateX(100%)';
-    setTimeout(() => {
-        if (notification.parentNode) {
-            notification.parentNode.removeChild(notification);
-        }
-    }, 300);
-}
-
-// ==========================================
-// ANIMATIONS AND EFFECTS
-// ==========================================
-
-function setupAnimations() {
-    // Intersection Observer for scroll animations
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
+    function handleSwipe() {
+        const swipeThreshold = 50;
+        const diff = touchStartX - touchEndX;
+        
+        if (Math.abs(diff) > swipeThreshold) {
+            if (diff > 0) {
+                nextSlide();
+            } else {
+                prevSlide();
             }
-        });
-    }, observerOptions);
-
-    // Observe elements for animation
-    const animatedElements = document.querySelectorAll('.skill-card, .project-card, .service-card, .timeline-item');
-    animatedElements.forEach(el => {
-        el.classList.add('fade-in');
-        observer.observe(el);
-    });
-
-    // Typing animation for hero text
-    setupTypingAnimation();
-}
-
-function setupTypingAnimation() {
-    const heroTitle = document.querySelector('.hero h1');
-    if (!heroTitle) return;
-    
-    const originalText = heroTitle.textContent;
-    heroTitle.textContent = '';
-    
-    let i = 0;
-    function typeWriter() {
-        if (i < originalText.length) {
-            heroTitle.textContent += originalText.charAt(i);
-            i++;
-            setTimeout(typeWriter, 100);
+            stopAutoPlay();
+            startAutoPlay();
         }
     }
     
-    // Start typing animation after page loads
-    setTimeout(typeWriter, 1000);
-}
-
-// ==========================================
-// SKILL BARS ANIMATION
-// ==========================================
-
-function setupSkillBars() {
-    const skillBars = document.querySelectorAll('.skill-bar');
-    
-    const skillObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const skillBar = entry.target;
-                const level = skillBar.getAttribute('data-level');
-                
-                setTimeout(() => {
-                    skillBar.style.width = level + '%';
-                }, 500);
-                
-                skillObserver.unobserve(skillBar);
-            }
-        });
-    }, { threshold: 0.5 });
-    
-    skillBars.forEach(bar => {
-        skillObserver.observe(bar);
-    });
-}
-
-// ==========================================
-// IMAGE FALLBACKS
-// ==========================================
-
-function setupImageFallbacks() {
-    const images = document.querySelectorAll('img');
-    
-    images.forEach(img => {
-        img.addEventListener('error', function() {
-            handleImageError(this);
-        });
-        
-        // Check if image is already broken
-        if (this.complete && this.naturalHeight === 0) {
-            handleImageError(this);
-        }
-    });
-}
-
-function handleImageError(img) {
-    const container = img.parentElement;
-    
-    if (img.id === 'profile-img' || img.alt.includes('Paulo Koye')) {
-        // Profile image fallback
-        img.style.display = 'none';
-        container.style.background = 'linear-gradient(45deg, #667eea, #764ba2)';
-        container.style.display = 'flex';
-        container.style.alignItems = 'center';
-        container.style.justifyContent = 'center';
-        container.innerHTML = '<i class="fas fa-user" style="font-size: 4rem; color: white;"></i>';
-    } else if (img.src.includes('project')) {
-        // Project image fallback
-        img.style.display = 'none';
-        container.style.background = 'linear-gradient(45deg, #667eea, #764ba2)';
-        container.style.display = 'flex';
-        container.style.alignItems = 'center';
-        container.style.justifyContent = 'center';
-        container.innerHTML = '<i class="fas fa-laptop-code" style="font-size: 3rem; color: white;"></i>';
+    // Pause on hover
+    const heroSlider = document.querySelector('.hero-slider');
+    if (heroSlider) {
+        heroSlider.addEventListener('mouseenter', stopAutoPlay);
+        heroSlider.addEventListener('mouseleave', startAutoPlay);
     }
-}
-
-// ==========================================
-// ABOUT PAGE SPECIFIC FUNCTIONALITY
-// ==========================================
-
-function initializeAboutPage() {
-    // Animate statistics counters
-    animateCounters();
     
-    // Setup timeline hover effects
-    setupTimelineEffects();
-}
-
-function animateCounters() {
-    const counters = document.querySelectorAll('.stat-number');
-    
-    const counterObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const counter = entry.target;
-                const target = parseInt(counter.textContent.replace(/\D/g, ''));
-                const suffix = counter.textContent.replace(/\d/g, '');
-                
-                animateCounter(counter, target, suffix);
-                counterObserver.unobserve(counter);
-            }
-        });
-    }, { threshold: 0.5 });
-    
-    counters.forEach(counter => {
-        counterObserver.observe(counter);
-    });
-}
-
-function animateCounter(element, target, suffix) {
-    let current = 0;
-    const increment = target / 50;
-    
-    const timer = setInterval(() => {
-        current += increment;
-        if (current >= target) {
-            element.textContent = target + suffix;
-            clearInterval(timer);
-        } else {
-            element.textContent = Math.floor(current) + suffix;
-        }
-    }, 50);
-}
-
-function setupTimelineEffects() {
-    const timelineItems = document.querySelectorAll('.timeline-item');
-    
-    timelineItems.forEach(item => {
-        item.addEventListener('mouseenter', function() {
-            this.style.transform = 'scale(1.02)';
-            this.style.transition = 'transform 0.3s ease';
-        });
-        
-        item.addEventListener('mouseleave', function() {
-            this.style.transform = 'scale(1)';
-        });
-    });
-}
-
-// ==========================================
-// UTILITY FUNCTIONS
-// ==========================================
-
-// Debounce function for performance
-function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-}
-
-// Throttle function for scroll events
-function throttle(func, limit) {
-    let inThrottle;
-    return function() {
-        const args = arguments;
-        const context = this;
-        if (!inThrottle) {
-            func.apply(context, args);
-            inThrottle = true;
-            setTimeout(() => inThrottle = false, limit);
-        }
-    };
-}
-
-// Get current year for copyright
-function updateCopyrightYear() {
-    const yearElements = document.querySelectorAll('.current-year');
-    const currentYear = new Date().getFullYear();
-    yearElements.forEach(element => {
-        element.textContent = currentYear;
-    });
-}
-
-// Initialize copyright year update
-updateCopyrightYear();
-
-// ==========================================
-// PERFORMANCE OPTIMIZATIONS
-// ==========================================
-
-// Optimize scroll events with throttling
-window.addEventListener('scroll', throttle(function() {
-    // Handle scroll-dependent functionality here if needed
-}, 16)); // ~60fps
-
-// Preload critical images
-function preloadImages() {
-    const criticalImages = [
-        'assets/images/profile.jpg',
-        'assets/images/project1.jpg',
-        'assets/images/project2.jpg',
-        'assets/images/project3.jpg'
-    ];
-    
-    criticalImages.forEach(src => {
-        const img = new Image();
-        img.src = src;
-    });
-}
-
-// Preload images after page load
-window.addEventListener('load', preloadImages);
-
-// ==========================================
-// ERROR HANDLING
-// ==========================================
-
-// Global error handler
-window.addEventListener('error', function(e) {
-    console.error('Global error:', e.error);
-    // Could implement error reporting here
-});
-
-// Handle unhandled promise rejections
-window.addEventListener('unhandledrejection', function(e) {
-    console.error('Unhandled promise rejection:', e.reason);
-    e.preventDefault();
-});
-
-// ==========================================
-// CONSOLE WELCOME MESSAGE
-// ==========================================
-
-console.log(`
-🚀 Paulo Koye Personal Website
-=====================================
-Built with HTML, CSS, and JavaScript
-Version: 1.0.0
-=====================================
-Thanks for checking out my code!
-`);
-
-// ==========================================
-// EXPORT FOR TESTING (if needed)
-// ==========================================
-
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = {
-        initializeWebsite,
-        setupNavigation,
-        setupContactForm,
-        validateField,
-        handleImageError
-    };
+    // Start auto play
+    startAutoPlay();
 }
 
 // ==========================================
@@ -809,235 +455,390 @@ function setupProjectSlider() {
         }
     }
     
-    // Auto-play (optional - uncomment to enable)
-    /*
-    let autoPlayInterval;
-    function startAutoPlay() {
-        autoPlayInterval = setInterval(() => {
-            if (currentSlide < totalSlides - 1) {
-                nextSlide();
-            } else {
-                currentSlide = 0;
-                updateSlider();
-            }
-        }, 5000);
-    }
-    
-    function stopAutoPlay() {
-        clearInterval(autoPlayInterval);
-    }
-    
-    slider.addEventListener('mouseenter', stopAutoPlay);
-    slider.addEventListener('mouseleave', startAutoPlay);
-    startAutoPlay();
-    */
-    
     // Initialize
     updateSlider();
 }
 
-// Add to initialization
-document.addEventListener('DOMContentLoaded', function() {
-    initializeWebsite();
-    setupProjectSlider(); // Add this line
-});
-
 // ==========================================
-// DYNAMIC NAVIGATION ACTIVE STATE
+// CONTACT FORM FUNCTIONALITY
 // ==========================================
 
-function updateNavigationActiveState() {
-    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-    const navLinks = document.querySelectorAll('.nav-links a');
-    
-    navLinks.forEach(link => {
-        const linkPage = link.getAttribute('href');
-        
-        // Remove all active classes first
-        link.classList.remove('active');
-        
-        // Add active class based on current page
-        if (currentPage === 'index.html' && (linkPage === 'index.html' || linkPage === '#home')) {
-            link.classList.add('active');
-        } else if (currentPage === 'about.html' && linkPage === 'about.html') {
-            link.classList.add('active');
-        } else if (currentPage === 'projects.html' && linkPage === 'projects.html') {
-            link.classList.add('active');
-        }
+function setupContactForm() {
+    const contactForm = document.getElementById("contact-form");
+    if (!contactForm) return;
+
+    contactForm.addEventListener("submit", function(e) {
+        e.preventDefault();
+        handleFormSubmission(this);
     });
-}
 
-// Call this when page loads
-document.addEventListener('DOMContentLoaded', function() {
-    initializeWebsite();
-    setupProjectSlider();
-    updateNavigationActiveState(); // Add this line
-});
-```
-
----
-
-## **FINAL NAVIGATION STRUCTURE:**
-
-Your website now has this clean navigation structure:
-```
-┌─────────────────────────────────────────┐
-│  Logo    Home  About  Skills  Projects  Contact │
-└─────────────────────────────────────────┘
-
-Home (index.html)
-├── Hero Section
-├── About Preview
-├── Skills Section
-├── Projects Slider → "View All Projects" → projects.html
-└── Contact Form
-
-About (about.html)
-├── About Hero
-├── My Story
-├── Timeline
-├── Services
-└── CTA
-
-Projects (projects.html) ← NEW TAB!
-├── Projects Hero
-├── Filter Buttons
-├── All Projects Grid (12+ projects)
-├── Stats Section
-└── CTA
-
-
-// ==========================================
-// HERO SLIDER FUNCTIONALITY
-// ==========================================
-
-function setupHeroSlider() {
-    const slides = document.querySelectorAll('.hero-slide');
-    const prevBtn = document.getElementById('hero-prev');
-    const nextBtn = document.getElementById('hero-next');
-    const indicators = document.querySelectorAll('.indicator');
-    
-    if (slides.length === 0) return;
-    
-    let currentSlide = 0;
-    const totalSlides = slides.length;
-    let autoPlayInterval;
-    
-    // Show specific slide
-    function showSlide(index) {
-        // Remove active class from all
-        slides.forEach(slide => slide.classList.remove('active'));
-        indicators.forEach(ind => ind.classList.remove('active'));
+    // Real-time form validation
+    const formInputs = contactForm.querySelectorAll('input, textarea');
+    formInputs.forEach(input => {
+        input.addEventListener('blur', function() {
+            validateField(this);
+        });
         
-        // Add active class to current
-        slides[index].classList.add('active');
-        indicators[index].classList.add('active');
-        
-        currentSlide = index;
-    }
-    
-    // Next slide
-    function nextSlide() {
-        let next = (currentSlide + 1) % totalSlides;
-        showSlide(next);
-    }
-    
-    // Previous slide
-    function prevSlide() {
-        let prev = (currentSlide - 1 + totalSlides) % totalSlides;
-        showSlide(prev);
-    }
-    
-    // Auto play
-    function startAutoPlay() {
-        autoPlayInterval = setInterval(nextSlide, 5000); // Change slide every 5 seconds
-    }
-    
-    function stopAutoPlay() {
-        clearInterval(autoPlayInterval);
-    }
-    
-    // Event listeners
-    if (prevBtn) prevBtn.addEventListener('click', () => {
-        prevSlide();
-        stopAutoPlay();
-        startAutoPlay();
-    });
-    
-    if (nextBtn) nextBtn.addEventListener('click', () => {
-        nextSlide();
-        stopAutoPlay();
-        startAutoPlay();
-    });
-    
-    // Indicator clicks
-    indicators.forEach((indicator, index) => {
-        indicator.addEventListener('click', () => {
-            showSlide(index);
-            stopAutoPlay();
-            startAutoPlay();
+        input.addEventListener('input', function() {
+            clearFieldError(this);
         });
     });
+}
+
+function handleFormSubmission(form) {
+    const submitBtn = form.querySelector('.submit-btn');
+    const originalText = submitBtn.innerHTML;
     
-    // Keyboard navigation
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowLeft') {
-            prevSlide();
-            stopAutoPlay();
-            startAutoPlay();
-        } else if (e.key === 'ArrowRight') {
-            nextSlide();
-            stopAutoPlay();
-            startAutoPlay();
+    // Show loading state
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+    submitBtn.disabled = true;
+    submitBtn.classList.add('loading');
+    
+    // Validate all fields
+    const isValid = validateForm(form);
+    
+    if (!isValid) {
+        resetSubmitButton(submitBtn, originalText);
+        return;
+    }
+    
+    // Simulate form submission
+    setTimeout(() => {
+        submitBtn.innerHTML = '<i class="fas fa-check"></i> Message Sent!';
+        submitBtn.classList.remove('loading');
+        submitBtn.classList.add('success');
+        
+        showNotification('Thank you for reaching out! I will get back to you soon.', 'success');
+        
+        form.reset();
+        
+        setTimeout(() => {
+            resetSubmitButton(submitBtn, originalText);
+        }, 3000);
+    }, 2000);
+}
+
+function validateForm(form) {
+    let isValid = true;
+    const requiredFields = form.querySelectorAll('[required]');
+    
+    requiredFields.forEach(field => {
+        if (!validateField(field)) {
+            isValid = false;
         }
     });
     
-    // Touch/Swipe support
-    let touchStartX = 0;
-    let touchEndX = 0;
-    
-    const sliderContainer = document.querySelector('.slider-container');
-    
-    if (sliderContainer) {
-        sliderContainer.addEventListener('touchstart', (e) => {
-            touchStartX = e.changedTouches[0].screenX;
-        }, { passive: true });
-        
-        sliderContainer.addEventListener('touchend', (e) => {
-            touchEndX = e.changedTouches[0].screenX;
-            handleSwipe();
-        }, { passive: true });
-    }
-    
-    function handleSwipe() {
-        const swipeThreshold = 50;
-        const diff = touchStartX - touchEndX;
-        
-        if (Math.abs(diff) > swipeThreshold) {
-            if (diff > 0) {
-                nextSlide();
-            } else {
-                prevSlide();
-            }
-            stopAutoPlay();
-            startAutoPlay();
-        }
-    }
-    
-    // Pause on hover
-    const heroSlider = document.querySelector('.hero-slider');
-    if (heroSlider) {
-        heroSlider.addEventListener('mouseenter', stopAutoPlay);
-        heroSlider.addEventListener('mouseleave', startAutoPlay);
-    }
-    
-    // Start auto play
-    startAutoPlay();
+    return isValid;
 }
 
-// Update the main initialization
-document.addEventListener('DOMContentLoaded', function() {
-    initializeWebsite();
-    setupProjectSlider();
-    setupHeroSlider(); // Add this line
+function validateField(field) {
+    const value = field.value.trim();
+    const fieldType = field.type;
+    let isValid = true;
+    let errorMessage = '';
+    
+    if (field.hasAttribute('required') && !value) {
+        errorMessage = `${getFieldLabel(field)} is required.`;
+        isValid = false;
+    }
+    else if (fieldType === 'email' && value) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(value)) {
+            errorMessage = 'Please enter a valid email address.';
+            isValid = false;
+        }
+    }
+    else if (field.name === 'name' && value && value.length < 2) {
+        errorMessage = 'Name must be at least 2 characters long.';
+        isValid = false;
+    }
+    else if (field.name === 'message' && value && value.length < 10) {
+        errorMessage = 'Message must be at least 10 characters long.';
+        isValid = false;
+    }
+    
+    if (!isValid) {
+        showFieldError(field, errorMessage);
+    } else {
+        clearFieldError(field);
+    }
+    
+    return isValid;
+}
+
+function showFieldError(field, message) {
+    clearFieldError(field);
+    
+    field.style.borderColor = '#dc3545';
+    
+    const errorDiv = document.createElement('div');
+    errorDiv.className = 'field-error';
+    errorDiv.textContent = message;
+    errorDiv.style.cssText = `
+        color: #dc3545;
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+        display: block;
+    `;
+    
+    field.parentNode.appendChild(errorDiv);
+}
+
+function clearFieldError(field) {
+    field.style.borderColor = '#e9ecef';
+    const existingError = field.parentNode.querySelector('.field-error');
+    if (existingError) {
+        existingError.remove();
+    }
+}
+
+function getFieldLabel(field) {
+    const label = field.parentNode.querySelector('label');
+    return label ? label.textContent.replace('*', '').trim() : field.name;
+}
+
+function resetSubmitButton(button, originalText) {
+    button.innerHTML = originalText;
+    button.disabled = false;
+    button.classList.remove('loading', 'success', 'error');
+}
+
+function showNotification(message, type = 'info') {
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.innerHTML = `
+        <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-info-circle'}"></i>
+        <span>${message}</span>
+        <button class="close-notification"><i class="fas fa-times"></i></button>
+    `;
+    
+    notification.style.cssText = `
+        position: fixed;
+        top: 100px;
+        right: 30px;
+        background: ${type === 'success' ? '#28a745' : '#667eea'};
+        color: white;
+        padding: 1rem 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        z-index: 1001;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        max-width: 400px;
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+    `;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.style.transform = 'translateX(0)';
+    }, 100);
+    
+    const closeBtn = notification.querySelector('.close-notification');
+    closeBtn.style.cssText = `
+        background: none;
+        border: none;
+        color: white;
+        cursor: pointer;
+        padding: 0;
+        margin-left: auto;
+    `;
+    
+    closeBtn.addEventListener('click', () => {
+        removeNotification(notification);
+    });
+    
+    setTimeout(() => {
+        removeNotification(notification);
+    }, 5000);
+}
+
+function removeNotification(notification) {
+    notification.style.transform = 'translateX(100%)';
+    setTimeout(() => {
+        if (notification.parentNode) {
+            notification.parentNode.removeChild(notification);
+        }
+    }, 300);
+}
+
+// ==========================================
+// ANIMATIONS AND EFFECTS
+// ==========================================
+
+function setupAnimations() {
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, observerOptions);
+
+    const animatedElements = document.querySelectorAll('.skill-card, .project-card, .service-card, .timeline-item');
+    animatedElements.forEach(el => {
+        el.classList.add('fade-in');
+        observer.observe(el);
+    });
+}
+
+function setupSkillBars() {
+    const skillBars = document.querySelectorAll('.skill-bar');
+    
+    const skillObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const skillBar = entry.target;
+                const level = skillBar.getAttribute('data-level');
+                
+                setTimeout(() => {
+                    skillBar.style.width = level + '%';
+                }, 500);
+                
+                skillObserver.unobserve(skillBar);
+            }
+        });
+    }, { threshold: 0.5 });
+    
+    skillBars.forEach(bar => {
+        skillObserver.observe(bar);
+    });
+}
+
+function setupImageFallbacks() {
+    const images = document.querySelectorAll('img');
+    
+    images.forEach(img => {
+        img.addEventListener('error', function() {
+            handleImageError(this);
+        });
+        
+        if (img.complete && img.naturalHeight === 0) {
+            handleImageError(img);
+        }
+    });
+}
+
+function handleImageError(img) {
+    const container = img.parentElement;
+    
+    if (img.id === 'profile-img' || img.alt.includes('Paulo Koye')) {
+        img.style.display = 'none';
+        container.style.background = 'linear-gradient(45deg, #667eea, #764ba2)';
+        container.style.display = 'flex';
+        container.style.alignItems = 'center';
+        container.style.justifyContent = 'center';
+        container.innerHTML = '<i class="fas fa-user" style="font-size: 4rem; color: white;"></i>';
+    } else if (img.src.includes('project')) {
+        img.style.display = 'none';
+        container.style.background = 'linear-gradient(45deg, #667eea, #764ba2)';
+        container.style.display = 'flex';
+        container.style.alignItems = 'center';
+        container.style.justifyContent = 'center';
+        container.innerHTML = '<i class="fas fa-laptop-code" style="font-size: 3rem; color: white;"></i>';
+    }
+}
+
+// ==========================================
+// ABOUT PAGE SPECIFIC FUNCTIONALITY
+// ==========================================
+
+function initializeAboutPage() {
+    animateCounters();
+    setupTimelineEffects();
+}
+
+function animateCounters() {
+    const counters = document.querySelectorAll('.stat-number');
+    
+    const counterObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const counter = entry.target;
+                const target = parseInt(counter.textContent.replace(/\D/g, ''));
+                const suffix = counter.textContent.replace(/\d/g, '');
+                
+                animateCounter(counter, target, suffix);
+                counterObserver.unobserve(counter);
+            }
+        });
+    }, { threshold: 0.5 });
+    
+    counters.forEach(counter => {
+        counterObserver.observe(counter);
+    });
+}
+
+function animateCounter(element, target, suffix) {
+    let current = 0;
+    const increment = target / 50;
+    
+    const timer = setInterval(() => {
+        current += increment;
+        if (current >= target) {
+            element.textContent = target + suffix;
+            clearInterval(timer);
+        } else {
+            element.textContent = Math.floor(current) + suffix;
+        }
+    }, 50);
+}
+
+function setupTimelineEffects() {
+    const timelineItems = document.querySelectorAll('.timeline-item');
+    
+    timelineItems.forEach(item => {
+        item.addEventListener('mouseenter', function() {
+            this.style.transform = 'scale(1.02)';
+            this.style.transition = 'transform 0.3s ease';
+        });
+        
+        item.addEventListener('mouseleave', function() {
+            this.style.transform = 'scale(1)';
+        });
+    });
+}
+
+// ==========================================
+// UTILITY FUNCTIONS
+// ==========================================
+
+function updateCopyrightYear() {
+    const yearElements = document.querySelectorAll('.current-year');
+    const currentYear = new Date().getFullYear();
+    yearElements.forEach(element => {
+        element.textContent = currentYear;
+    });
+}
+
+// Preload critical images
+window.addEventListener('load', function() {
+    const criticalImages = [
+        'assets/images/profile.jpg',
+        'assets/images/hero-slide1.jpg',
+        'assets/images/hero-slide2.jpg',
+        'assets/images/hero-slide3.jpg'
+    ];
+    
+    criticalImages.forEach(src => {
+        const img = new Image();
+        img.src = src;
+    });
 });
+
+// Console welcome message
+console.log(`
+🚀 Paulo Koye Personal Website
+=====================================
+Built with HTML, CSS, and JavaScript
+Version: 2.0.0
+=====================================
+Thanks for checking out my code!
+`);
