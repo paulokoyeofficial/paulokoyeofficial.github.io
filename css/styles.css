@@ -158,7 +158,7 @@ nav {
     overflow: hidden;
 }
 
-.slide-background::before {
+/* .slide-background::before {
     content: '';
     position: absolute;
     top: 0;
@@ -166,8 +166,8 @@ nav {
     width: 100%;
     height: 100%;
     background: linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%);
-    z-index: 1;
-}
+    z-index: 1; */
+/* } */
 
 .slide-background img {
     width: 100%;
@@ -698,6 +698,34 @@ nav {
     position: relative;
     overflow: hidden;
 }
+
+/* Nested skill boxes inside skill card */
+.skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin: 1rem 0 1.5rem;
+    justify-content: center;
+}
+
+.skill-tag {
+    padding: 6px 14px;
+    background: rgba(102, 126, 234, 0.1);
+    color: #667eea;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border-radius: 20px;
+    border: 1px solid rgba(102, 126, 234, 0.25);
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.skill-tag:hover {
+    background: #667eea;
+    color: #fff;
+    transform: translateY(-2px);
+}
+
 
 .skill-card::before {
     content: '';

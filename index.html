@@ -115,23 +115,25 @@
     <!-- About Section -->
     <section id="about" class="section">
         <div class="container">
-            <h2 class="section-title">About Me</h2>
+            <h2 class="section-title">Profile Summary</h2>
             <div class="about-content">
                 <div class="about-image">
                     <img src="assets/images/profile.jpeg" alt="PAUL OKOYE" id="profile-img">
                 </div>
                 <div class="about-text">
-                    <h3>I'm a Creative Developer</h3>
-                    <p>With over 5 years of experience in web development, I specialize in creating beautiful, functional, and user-friendly websites and applications. I'm passionate about clean code, modern design, and delivering exceptional user experiences.</p>
-                    <p>When I'm not coding, you can find me exploring new technologies, contributing to open-source projects, or enjoying outdoor activities. I believe in continuous learning and always strive to stay up-to-date with the latest industry trends.</p>
+                    <h3>As a Systems Intelligence Strategist</h3>
+                    <p>I am leveraging data, emerging technology and leadership to improve and transform food, energy, and sustainable systems.</p>
+                    <!-- <p>I am focused on applying data and emerging technologies to improve complex systems that shape food, energy, and sustainability. My work centers on understanding how these systems interact, identifying leverage points through data, and translating insights into clear, actionable strategies.</p>
+                    <p>I bring a strong blend of analytical thinking, systems design, and strategic execution, with practical experience across agriculture, research, and technology-enabled initiatives. I am particularly interested in how advanced analytics, AI, and next-generation computing can support resilient economies, sustainable production, and informed decision-making at scale.</p>
+                    <p>This positioning allows me to contribute effectively across research, innovation, policy, and business environments, where evidence-based strategy and long-term impact matter.</p> -->
                     <a href="about.html" class="learn-more-btn">Learn More About Me</a>
                 </div>
             </div>
         </div>
     </section>
 
-<!-- Skills Section -->
-<section id="skills" class="section skills">
+Skills Section
+<!-- <section id="skills" class="section skills">
     <div class="container">
         <h2 class="section-title">My Skills</h2>
         <div class="skills-grid">
@@ -142,8 +144,23 @@
                 <div class="skill-level">
                     <div class="skill-bar" data-level="90"></div>
                 </div>
-            </div>
-            <div class="skill-card">
+            </div> -->
+<!-- <div class="skill-card">
+    <i class="fas fa-database"></i>
+    <h4>Data Science</h4>
+
+    <div class="skill-tags">
+        <span class="skill-tag">Data Cleaning</span>
+        <span class="skill-tag">Exploratory Data Analysis (EDA)</span>
+        <span class="skill-tag">Statistical Modeling</span>
+    </div>
+
+    <div class="skill-level">
+        <div class="skill-bar" data-level="90"></div>
+    </div>
+</div> -->
+
+            <!-- <div class="skill-card">
                 <i class="fas fa-robot"></i>
                 <h4>Machine Learning</h4>
                 <p>Regression, Classification, Clustering, Deep Learning (TensorFlow, PyTorch)</p>
@@ -169,8 +186,200 @@
             </div>
         </div>
     </div>
+</section> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Skills Section</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+/* ===== GENERAL ===== */
+body {
+    font-family: Arial, sans-serif;
+    background: #0b1120;
+    color: #fff;
+}
+
+.section {
+    padding: 80px 20px;
+}
+
+.container {
+    max-width: 1100px;
+    margin: auto;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 32px;
+    margin-bottom: 50px;
+}
+
+/* ===== GRID ===== */
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+}
+
+/* ===== SKILL CARD ===== */
+.skill-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 25px;
+    transition: transform 0.3s ease;
+}
+
+.skill-card:hover {
+    transform: translateY(-6px);
+}
+
+.skill-card i {
+    font-size: 34px;
+    color: #4f46e5;
+    margin-bottom: 15px;
+}
+
+.skill-card h4 {
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+/* ===== MINI SKILLS (BOXES) ===== */
+.skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 18px;
+}
+
+.skill-tag {
+    background: rgba(79, 70, 229, 0.15);
+    color: #c7d2fe;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+/* ===== SKILL BAR ===== */
+.skill-level {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    height: 8px;
+    overflow: hidden;
+}
+
+.skill-bar {
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, #4f46e5, #6366f1);
+    border-radius: 10px;
+    transition: width 1.2s ease;
+}
+</style>
+</head>
+
+<body>
+
+<!-- ===== SKILLS SECTION ===== -->
+<section id="skills" class="section skills">
+    <div class="container">
+        <h2 class="section-title">My Skills</h2>
+
+        <div class="skills-grid">
+
+            <!-- DATA SCIENCE -->
+            <div class="skill-card">
+                <i class="fas fa-database"></i>
+                <h4>Data Science</h4>
+
+                <div class="skill-tags">
+                    <span class="skill-tag">Data Cleaning</span>
+                    <span class="skill-tag">EDA</span>
+                    <span class="skill-tag">Statistical Modeling</span>
+                </div>
+
+                <div class="skill-level">
+                    <div class="skill-bar" data-level="90"></div>
+                </div>
+            </div>
+
+            <!-- MACHINE LEARNING -->
+            <div class="skill-card">
+                <i class="fas fa-robot"></i>
+                <h4>Machine Learning</h4>
+
+                <div class="skill-tags">
+                    <span class="skill-tag">Regression</span>
+                    <span class="skill-tag">Classification</span>
+                    <span class="skill-tag">Clustering</span>
+                    <span class="skill-tag">TensorFlow</span>
+                    <span class="skill-tag">PyTorch</span>
+                </div>
+
+                <div class="skill-level">
+                    <div class="skill-bar" data-level="85"></div>
+                </div>
+            </div>
+
+            <!-- DATA VISUALIZATION -->
+            <div class="skill-card">
+                <i class="fas fa-chart-line"></i>
+                <h4>Data Visualization</h4>
+
+                <div class="skill-tags">
+                    <span class="skill-tag">Matplotlib</span>
+                    <span class="skill-tag">Seaborn</span>
+                    <span class="skill-tag">Plotly</span>
+                    <span class="skill-tag">Power BI</span>
+                    <span class="skill-tag">Tableau</span>
+                </div>
+
+                <div class="skill-level">
+                    <div class="skill-bar" data-level="95"></div>
+                </div>
+            </div>
+
+            <!-- TOOLS -->
+            <div class="skill-card">
+                <i class="fas fa-cloud"></i>
+                <h4>Tools & Technologies</h4>
+
+                <div class="skill-tags">
+                    <span class="skill-tag">Python</span>
+                    <span class="skill-tag">SQL</span>
+                    <span class="skill-tag">Jupyter</span>
+                    <span class="skill-tag">Git</span>
+                    <span class="skill-tag">AWS</span>
+                    <span class="skill-tag">Docker</span>
+                </div>
+
+                <div class="skill-level">
+                    <div class="skill-bar" data-level="80"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
 </section>
 
+<script>
+/* ===== ANIMATE SKILL BARS ===== */
+document.querySelectorAll('.skill-bar').forEach(bar => {
+    const level = bar.getAttribute('data-level');
+    setTimeout(() => {
+        bar.style.width = level + '%';
+    }, 300);
+});
+</script>
+
+</body>
+</html>
+    
     <!-- Projects Section -->
 <section id="projects" class="section">
     <div class="container">
