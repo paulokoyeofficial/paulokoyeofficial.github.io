@@ -2000,3 +2000,58 @@ body {
         transform: translateY(0);
     }
 }
+
+/* ==========================================
+   SKILLS SECTION STYLES
+   ========================================== */
+.skills-section {
+  padding: 60px 0;
+}
+
+.skills-section h2 {
+  font-size: 28px;
+  margin-bottom: 25px;
+}
+
+.skills-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.skill-tag {
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: #f7f7f7;
+  border: 1px solid #ddd;
+  font-size: 14px;
+  color: #333;
+  cursor: default;
+  transition: all 0.3s ease;
+}
+
+/* Hover effect */
+.skill-tag:hover {
+  background: #eef5ff;
+  border-color: #3b82f6;
+  color: #1d4ed8;
+}
+
+/* Category styles */
+.skill-tag.highlight {
+  background: #fff4e6;
+  border-color: #f59e0b;
+  color: #92400e;
+}
+
+.skill-tag.soft {
+  background: #ecfdf5;
+  border-color: #10b981;
+  color: #065f46;
+}
+
+.skill-tag.dark {
+  background: #ede9fe;
+  border-color: #6366f1;
+  color: #312e81;
+}
