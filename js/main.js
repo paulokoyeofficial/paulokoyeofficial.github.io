@@ -503,19 +503,19 @@ function handleFormSubmission(form) {
     }
     
     // Simulate form submission
-    setTimeout(() => {
-        submitBtn.innerHTML = '<i class="fas fa-check"></i> Message Sent!';
-        submitBtn.classList.remove('loading');
-        submitBtn.classList.add('success');
+    // setTimeout(() => {
+    //     submitBtn.innerHTML = '<i class="fas fa-check"></i> Message Sent!';
+    //     submitBtn.classList.remove('loading');
+    //     submitBtn.classList.add('success');
         
-        showNotification('Thank you for reaching out! I will get back to you soon.', 'success');
+    //     showNotification('Thank you for reaching out! I will get back to you soon.', 'success');
         
-        form.reset();
+    //     form.reset();
         
-        setTimeout(() => {
-            resetSubmitButton(submitBtn, originalText);
-        }, 3000);
-    }, 2000);
+    //     setTimeout(() => {
+    //         resetSubmitButton(submitBtn, originalText);
+    //     }, 3000);
+    // }, 2000);
 }
 
 function validateForm(form) {

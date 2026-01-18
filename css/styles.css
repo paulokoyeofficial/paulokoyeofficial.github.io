@@ -195,7 +195,7 @@ nav {
     align-items: center;
     justify-content: center;
     text-align: center;
-    color: white;
+    color: rgb(221, 220, 220);
     padding: 0 2rem;
 }
 
@@ -675,6 +675,14 @@ nav {
 .learn-more-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+}
+
+/* certification and award */
+.profile-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 1.2rem;
 }
 
 /* Skills Section */
